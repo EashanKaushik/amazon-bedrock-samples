@@ -1,5 +1,2 @@
 streamlit
 boto3
-clipboard
-PyQt5
-PyGTK
