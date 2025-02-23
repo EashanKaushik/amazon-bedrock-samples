@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import util
 from argparse import ArgumentParser
-
+import uuid
 
 parser = ArgumentParser()
 parser.add_argument("--environmentName", type=str, default=None)
@@ -22,7 +22,7 @@ st.title("Customer Relation Manager (CRM)")
 heading_column1, heading_column_space, heading_column2 = st.columns((6, 2, 2))
 
 def create_copy_button(text_to_copy):
-    button_id = "copyButton" + text_to_copy
+    button_id = "copyButton" + str(uuid.uuid4())
     
     button_html = "<button id='" + button_id + "'>Copy</button><script>const copyButton = document.getElementById('" + button_id + "');copyButton.addEventListener('click', async () => {try {await navigator.clipboard.writeText('" + text_to_copy + "');console.log('Copied to clipboard successfully');} catch (err) {console.error('Failed to copy:', err);}});</script>"
     
