@@ -52,7 +52,7 @@ st.markdown(
 def create_copy_button(text_to_copy):
     button_id = "copyButton" + str(uuid.uuid4())
 
-    my_html = "<button id='" + button_id + "'>Copy</button><script>document.getElementById('" + button_id + "').onclick = function() {navigator.clipboard.writeText('" + text_to_copy.replace("'", "") + "')};</script>"
+    my_html = "<button id='" + button_id + "'>Copy</button><script>document.getElementById('" + button_id + "').onclick = function() {navigator.clipboard.writeText('" + text_to_copy.replace("'", "").replace("\n", "") + "')};</script>"
     
     html(my_html)
     
