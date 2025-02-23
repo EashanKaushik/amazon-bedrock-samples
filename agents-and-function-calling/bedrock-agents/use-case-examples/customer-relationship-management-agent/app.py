@@ -5,11 +5,16 @@ import pandas as pd
 import numpy as np
 import util
 from argparse import ArgumentParser
+import clipboard
 
 parser = ArgumentParser()
 parser.add_argument("--environmentName", type=str, default=None)
 
 args = parser.parse_args()
+
+def on_copy_click(text):
+    st.session_state.copied.append(text)
+    clipboard.copy(text)
 
 environmentName = args.environmentName
 bedrock = util.BedrockAgent(environmentName)
@@ -47,6 +52,9 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+if "copied" not in st.session_state: 
+    st.session_state.copied = []
+    
 if "chat_history" not in st.session_state or len(st.session_state["chat_history"]) == 0:
     st.session_state["chat_history"] = [
         {
@@ -85,5 +93,12 @@ if prompt := st.chat_input("Ask the bot about customer..."):
         )
 
         st.markdown(response_text, unsafe_allow_html=True)
+         if len(st.session_state.copied) > 5:
+            st.session_state.copied.pop(0)
+            
+        st.button("Copy 📋", on_click=on_copy_click, args=(response_text,))
         # if col3.checkbox('Trace', key=len(st.session_state["chat_history"]), label_visibility="hidden"):
         # col2.markdown(trace_text)
+    
+for text in st.session_state.copied:
+    st.toast(f"Copied to clipboard: {text}", icon='✅' )
