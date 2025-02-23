@@ -79,8 +79,7 @@ if prompt := st.chat_input("Ask the bot about customer..."):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        container = st.container(border=True)
-        response_text, trace_text = bedrock.invoke_agent(prompt, container)
+        response_text, trace_text = bedrock.invoke_agent(prompt)
         st.session_state["chat_history"].append(
             {"role": "assistant", "prompt": response_text, "trace": trace_text}
         )
