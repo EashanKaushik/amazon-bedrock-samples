@@ -68,15 +68,7 @@ for index, chat in enumerate(st.session_state["chat_history"]):
                 st.rerun()
 
         elif chat["role"] == "assistant":
-            col1, col2, col3 = st.columns((5, 4, 1))
-
-            col1.markdown(chat["prompt"], unsafe_allow_html=True)
-
-            if col3.checkbox(
-                "Trace", value=False, key=index, label_visibility="visible"
-            ):
-                col2.subheader("Trace")
-                col2.markdown(chat["trace"])
+            st.markdown(chat["prompt"], unsafe_allow_html=True)
         else:
             st.markdown(chat["prompt"])
 
@@ -87,17 +79,8 @@ if prompt := st.chat_input("Ask the bot about customer..."):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        col1, col2, col3 = st.columns((5, 4, 1))
-
-        if col3.checkbox(
-            "Trace",
-            value=True,
-            key=len(st.session_state["chat_history"]),
-            label_visibility="visible",
-        ):
-            col2.subheader("Trace")
-
-        response_text, trace_text = bedrock.invoke_agent(prompt, col2)
+        container = st.container(border=True)
+        response_text, trace_text = bedrock.invoke_agent(prompt, container)
         st.session_state["chat_history"].append(
             {"role": "assistant", "prompt": response_text, "trace": trace_text}
         )
