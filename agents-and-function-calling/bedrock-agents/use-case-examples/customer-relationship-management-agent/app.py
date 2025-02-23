@@ -93,7 +93,7 @@ if prompt := st.chat_input("Ask the bot about customer..."):
         )
 
         st.markdown(response_text, unsafe_allow_html=True)
-         if len(st.session_state.copied) > 5:
+        if len(st.session_state.copied) > 5:
             st.session_state.copied.pop(0)
             
         st.button("Copy 📋", on_click=on_copy_click, args=(response_text,), type="primary")
