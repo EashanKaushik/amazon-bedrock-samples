@@ -65,7 +65,7 @@ class BedrockAgent:
     def new_session(self):
         st.session_state["SESSION_ID"] = str(uuid.uuid1())
 
-    def invoke_agent(self, input_text, trace):
+    def invoke_agent(self, input_text):
 
         response_text = ""
         trace_text = ""
