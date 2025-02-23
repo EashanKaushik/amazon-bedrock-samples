@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     software-properties-common \
     git \
+    xselect \
+    xclip \
     && rm -rf /var/lib/apt/lists/*
 
 COPY . .
