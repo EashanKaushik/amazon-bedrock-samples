@@ -20,14 +20,6 @@ st.set_page_config(layout="wide", page_title="CRM")
 
 st.title("Customer Relation Manager (CRM)")
 heading_column1, heading_column_space, heading_column2 = st.columns((6, 2, 2))
-
-def create_copy_button(text_to_copy):
-    button_id = "copyButton" + str(uuid.uuid4())
-    
-    button_html = "<button id='" + button_id + "'>Copy</button><script>const copyButton = document.getElementById('" + button_id + "');copyButton.addEventListener('click', async () => {try {await navigator.clipboard.writeText('" + text_to_copy + "');console.log('Copied to clipboard successfully');} catch (err) {console.error('Failed to copy:', err);}});</script>"
-    
-    st.markdown(button_html, unsafe_allow_html=True)
-
     
 with heading_column1:
     st.subheader(":grey[Amazon Bedrock Agents]")
@@ -98,7 +90,6 @@ if prompt := st.chat_input("Ask the bot about customer..."):
         )
 
         st.markdown(response_text, unsafe_allow_html=True)
-        create_copy_button(response_text)
         # if col3.checkbox('Trace', key=len(st.session_state["chat_history"]), label_visibility="hidden"):
         # col2.markdown(trace_text)
 
