@@ -48,7 +48,13 @@ st.markdown(
 """,
     unsafe_allow_html=True,
 )
+def create_copy_button(text_to_copy):
+    button_id = "copyButton" + str(uuid.uuid4())
 
+    my_html = "<button id='" + button_id + "'>Copy</button><script>document.getElementById('" + button_id + "').onclick = function() {navigator.clipboard.writeText('" + text_to_copy.replace("'", "") + "')};</script>"
+    
+    html(my_html)
+    
 if "copied" not in st.session_state: 
     st.session_state.copied = []
     
@@ -90,6 +96,7 @@ if prompt := st.chat_input("Ask the bot about customer..."):
         )
 
         st.markdown(response_text, unsafe_allow_html=True)
+        create_copy_button(response_text)
         # if col3.checkbox('Trace', key=len(st.session_state["chat_history"]), label_visibility="hidden"):
         # col2.markdown(trace_text)
 
