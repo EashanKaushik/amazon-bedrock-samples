@@ -96,7 +96,7 @@ if prompt := st.chat_input("Ask the bot about customer..."):
         if len(st.session_state.copied) > 5:
             st.session_state.copied.pop(0)
             
-        st.button("Copy 📋", on_click=on_copy_click, args=(response_text,), type="primary")
+        st.button("Copy 📋", on_click=on_copy_click, args=(response_text,))
         # if col3.checkbox('Trace', key=len(st.session_state["chat_history"]), label_visibility="hidden"):
         # col2.markdown(trace_text)
     
