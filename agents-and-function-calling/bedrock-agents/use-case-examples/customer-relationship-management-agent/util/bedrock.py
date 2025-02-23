@@ -100,9 +100,7 @@ class BedrockAgent:
 
                             step += 1
                             trace_text += f'\n\n\n---------- Step {step} ----------\n\n\n{trace_obj["orchestrationTrace"]["rationale"]["text"]}\n\n\n'
-                            trace.markdown(
-                                f'\n\n\n---------- Step {step} ----------\n\n\n{trace_obj["orchestrationTrace"]["rationale"]["text"]}\n\n\n'
-                            )
+                            
 
                         elif (
                             "modelInvocationInput"
@@ -110,24 +108,19 @@ class BedrockAgent:
                         ):
 
                             trace_text += "\n\n\n" + trace_dump + "\n\n\n"
-                            trace.markdown("\n\n\n" + trace_dump + "\n\n\n")
 
                     elif "failureTrace" in trace_obj:
 
                         trace_text += "\n\n\n" + trace_dump + "\n\n\n"
-                        trace.markdown("\n\n\n" + trace_dump + "\n\n\n")
 
                     elif "postProcessingTrace" in trace_obj:
 
                         step += 1
                         trace_text += f"\n\n\n---------- Step {step} ----------\n\n\n{json.dumps(trace_obj['postProcessingTrace']['modelInvocationOutput']['parsedResponse']['text'], indent=2)}\n\n\n"
-                        trace.markdown(
-                            f"\n\n\n---------- Step {step} ----------\n\n\n{json.dumps(trace_obj['postProcessingTrace']['modelInvocationOutput']['parsedResponse']['text'], indent=2)}\n\n\n"
-                        )
+                        
 
         except Exception as e:
             trace_text += str(e)
-            trace.markdown(str(e))
             raise Exception("unexpected event.", e)
 
         return response_text, trace_text
