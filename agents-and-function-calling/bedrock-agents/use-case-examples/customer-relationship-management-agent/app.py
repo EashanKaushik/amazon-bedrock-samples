@@ -24,16 +24,7 @@ heading_column1, heading_column_space, heading_column2 = st.columns((6, 2, 2))
 def create_copy_button(text_to_copy):
     button_id = "copyButton" + text_to_copy
     
-    button_html = f"""<button id='{button_id}'>Copy</button>
-    <script>
-    document.getElementById('{button_id}').onclick = function() {{
-        navigator.clipboard.writeText('{text_to_copy}').then(function() {{
-            console.log('Async: Copying to clipboard was successful!');
-        }}, function(err) {{
-            console.error('Async: Could not copy text: ', err);
-        }});
-    }}
-    </script>"""
+    button_html = "<button id='" + button_id + "'>Copy</button><script>const copyButton = document.getElementById('" + button_id + "');copyButton.addEventListener('click', async () => {try {await navigator.clipboard.writeText('" + text_to_copy + "');console.log('Copied to clipboard successfully');} catch (err) {console.error('Failed to copy:', err);}});</script>"
     
     st.markdown(button_html, unsafe_allow_html=True)
 
@@ -94,23 +85,20 @@ for index, chat in enumerate(st.session_state["chat_history"]):
         else:
             st.markdown(chat["prompt"])
 
-if text_to_copy := st.chat_input("Ask the bot about customer...", key="text_to_copy"):
-    st.session_state["chat_history"].append({"role": "human", "prompt": text_to_copy})
+if prompt := st.chat_input("Ask the bot about customer..."):
+    st.session_state["chat_history"].append({"role": "human", "prompt": prompt})
 
     with st.chat_message("human"):
-        st.markdown(text_to_copy)
+        st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        response_text, trace_text = bedrock.invoke_agent(text_to_copy)
+        response_text, trace_text = bedrock.invoke_agent(prompt)
         st.session_state["chat_history"].append(
             {"role": "assistant", "prompt": response_text, "trace": trace_text}
         )
 
         st.markdown(response_text, unsafe_allow_html=True)
-        if len(st.session_state.copied) > 5:
-            st.session_state.copied.pop(0)
-            
-        create_copy_button(st.session_state.text_to_copy)
+        create_copy_button(response_text)
         # if col3.checkbox('Trace', key=len(st.session_state["chat_history"]), label_visibility="hidden"):
         # col2.markdown(trace_text)
 
